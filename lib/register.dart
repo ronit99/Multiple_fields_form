@@ -32,6 +32,7 @@ class _RegisterState extends State<Register> {
   List<DropdownMenuItem<Incomecheck>> _dropdownMenuSlots;
   DateTime selectedDate = DateTime.now();
   bool _obscureText = true;
+  bool _showPassword = false;
   //dropdown values and some model's data
   String dropdownValue = 'Male';
   int selected_item = 0;
@@ -219,42 +220,88 @@ class _RegisterState extends State<Register> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child: TextFormField(
-                    style: CustomTextStyle.display5(context),
-                    controller: fnamecontroller,
-                    decoration: Decor.decorText.copyWith(labelText: 'First name'),
+                  child: new TextField(
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      hintText: 'First Name',
+                      hintStyle: TextStyle(fontSize: 15),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(
+                          width: 1,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      // filled: true,
+                      contentPadding: EdgeInsets.all(12),
+                    ),
                   ),
                 ),
                 SizedBox(width: 20),
                 Expanded(
-                  child: TextFormField(
-
-                    style: CustomTextStyle.display5(context),
-                    controller: lnamecontroller,
-                    decoration: Decor.decorText.copyWith(labelText: "Last name"),
+                  child: new TextField(
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      hintText: 'Last Name',
+                      hintStyle: TextStyle(fontSize: 15),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(
+                          width: 1,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      // filled: true,
+                      contentPadding: EdgeInsets.all(12),
+                    ),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 20),
-            TextFormField(
-              style: CustomTextStyle.display5(context),
-              controller: emailcontroller,
-              decoration: Decor.decorText.copyWith(labelText: "Email"),
+            new TextField(
+              textAlign: TextAlign.left,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                hintText: 'Email',
+                hintStyle: TextStyle(fontSize: 15),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                    width: 1,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                // filled: true,
+                contentPadding: EdgeInsets.all(12),
+              ),
             ),
             SizedBox(height: 20),
-
-            TextFormField(
-              style: CustomTextStyle.display5(context),
-              controller: passwordcontroller,
-              decoration: Decor.decorText.
-              copyWith(labelText: "Password",
-                       suffixIcon: IconButton(
-                         icon: Icon( _obscureText ? Icons.visibility : Icons.visibility_off),
-                         onPressed: () {
-                _toggle();
-              },),),
-              obscureText: _obscureText,
+             new TextField(
+              obscureText: !this._showPassword,
+              textAlign: TextAlign.start,
+              decoration: InputDecoration(
+                hintText: 'Password',
+                hintStyle: TextStyle(fontSize: 15),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                    width: 1,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() => this._showPassword = !this._showPassword);
+                  },
+                ),
+              ),
             ),
             SizedBox(height: 20),
             Container(
@@ -283,10 +330,22 @@ class _RegisterState extends State<Register> {
                   ),
             ),
             SizedBox(height:20),
-            TextFormField(
-              style: CustomTextStyle.display5(context),
-            //  controller: lnamecontroller,
-              decoration: Decor.decorText.copyWith(labelText: "Race",suffixIcon: IconButton(icon: Icon(Icons.keyboard_arrow_down),),),
+            new TextField(
+              textAlign: TextAlign.left,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                hintText: 'Add Race',
+                hintStyle: TextStyle(fontSize: 16),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                    width: 1,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                // filled: true,
+                contentPadding: EdgeInsets.all(12),
+              ),
             ),
             SizedBox(height: 20),
             Container(
@@ -319,18 +378,41 @@ class _RegisterState extends State<Register> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child: TextFormField(
-                    style: CustomTextStyle.display5(context),
-                   // controller: fnamecontroller,
-                    decoration: Decor.decorText.copyWith(labelText: 'Zip Code'),
+                  child:  new TextField(
+                    textAlign: TextAlign.left,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      hintText: 'Zipcode',
+                      hintStyle: TextStyle(fontSize: 15),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(
+                          width: 1,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      // filled: true,
+                      contentPadding: EdgeInsets.all(12),
+                    ),
                   ),
                 ),
                 SizedBox(width: 20),
                 Expanded(
-                  child: TextFormField(
-                    style: CustomTextStyle.display5(context),
-                   controller: birthController,
-                    decoration: Decor.decorText.copyWith(labelText: "Birth Date",suffixIcon: IconButton(icon: Icon(Icons.keyboard_arrow_down),),),
+                  child: new TextField(
+                    textAlign: TextAlign.center,
+                    // keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      hintText: 'Birth date',
+                      hintStyle: TextStyle(fontSize: 16),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(
+                          width: 2,
+                        ),
+                      ),
+                      // filled: true,
+                      contentPadding: EdgeInsets.all(12),
+                    ),
                     onTap: () {
                       if (Platform.isIOS) {
                         _showModalBottomSheet(context);
