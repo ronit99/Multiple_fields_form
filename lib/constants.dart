@@ -34,7 +34,7 @@ class CustomTextStyle {
   static TextStyle display5(BuildContext context) {
     return Theme.of(context).textTheme.body1
         .copyWith(
-        fontSize: 12,
+        fontSize: 20,
         fontWeight: FontWeight.normal,
         fontFamily: 'Montserrat',
         color: Colors.grey);

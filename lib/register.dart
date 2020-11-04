@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
+import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'Models.dart';
+import 'listdata.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -12,13 +16,16 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _isvalid = true;
   TextEditingController fnamecontroller = TextEditingController();
   TextEditingController lnamecontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController genderController =  TextEditingController();
   TextEditingController birthController =  TextEditingController();
+  TextEditingController raceController =  TextEditingController();
+  TextEditingController zipController =  TextEditingController();
   List<Gender> _genders = Gender.getCompanies();
   List<DropdownMenuItem<Gender>> _dropdownMenuItems;
   List<FirstVoterUser> _firstvoters = FirstVoterUser.getCompanies();
@@ -58,6 +65,21 @@ class _RegisterState extends State<Register> {
         String date = new DateFormat('dd-MM-yyyy').format(selectedDate);
         birthController.text = date;
       });
+  }
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+    {
+      print('enter email not found');
+    }
+    // return 'Enter Valid Email';
+    else
+    {
+      print('enter email found');
+    }
+    // return  null;
   }
   void _setAgreedToTOS(bool newValue) {
     setState(() {
@@ -175,6 +197,7 @@ class _RegisterState extends State<Register> {
         DropdownMenuItem(
           value: gender,
           child: Text(gender.gender),
+
         ),
       );
     }
@@ -223,6 +246,7 @@ class _RegisterState extends State<Register> {
                   child: new TextField(
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.text,
+                    controller: fnamecontroller,
                     decoration: InputDecoration(
                       hintText: 'First Name',
                       hintStyle: TextStyle(fontSize: 15),
@@ -242,6 +266,7 @@ class _RegisterState extends State<Register> {
                 Expanded(
                   child: new TextField(
                     textAlign: TextAlign.center,
+                    controller: lnamecontroller,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       hintText: 'Last Name',
@@ -263,7 +288,10 @@ class _RegisterState extends State<Register> {
             SizedBox(height: 20),
             new TextField(
               textAlign: TextAlign.left,
-              keyboardType: TextInputType.text,
+                key: _formKey,
+
+              controller: emailcontroller,
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 hintText: 'Email',
                 hintStyle: TextStyle(fontSize: 15),
@@ -281,6 +309,7 @@ class _RegisterState extends State<Register> {
             SizedBox(height: 20),
              new TextField(
               obscureText: !this._showPassword,
+              controller: passwordcontroller,
               textAlign: TextAlign.start,
               decoration: InputDecoration(
                 hintText: 'Password',
@@ -305,6 +334,7 @@ class _RegisterState extends State<Register> {
             ),
             SizedBox(height: 20),
             Container(
+
               height: 60,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -314,7 +344,9 @@ class _RegisterState extends State<Register> {
                  ),
               child:
                   DropdownButtonHideUnderline(
+
                     child: DropdownButton(
+
                       hint: Text('Gender'),
                       icon: Icon(Icons.keyboard_arrow_down),
                       isExpanded: true,
@@ -332,6 +364,7 @@ class _RegisterState extends State<Register> {
             SizedBox(height:20),
             new TextField(
               textAlign: TextAlign.left,
+              controller: raceController,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 hintText: 'Add Race',
@@ -379,6 +412,7 @@ class _RegisterState extends State<Register> {
               children: [
                 Expanded(
                   child:  new TextField(
+                    controller: zipController,
                     textAlign: TextAlign.left,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
@@ -400,6 +434,7 @@ class _RegisterState extends State<Register> {
                 Expanded(
                   child: new TextField(
                     textAlign: TextAlign.center,
+                    controller: birthController,
                     // keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       hintText: 'Birth date',
@@ -445,6 +480,7 @@ class _RegisterState extends State<Register> {
                     items: _dropdownMenuParties,
                     onChanged: (value) {
                       setState(() {
+                        print(_selectedname);
                         _selectedname = value;
                         // print(value.toString());
                         //genderController.text = _selectedItem.gender;
@@ -499,6 +535,7 @@ class _RegisterState extends State<Register> {
                     onChanged: (value) {
                       setState(() {
                         _selectedslot = value;
+
                         // print(value.toString());
                         //genderController.text = _selectedItem.gender;
                       });
@@ -532,21 +569,71 @@ class _RegisterState extends State<Register> {
               textColor: Colors.white,
               //disabledColor: Colors.grey,
              // disabledTextColor: Colors.black,
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(16.0),
               splashColor: Colors.blueAccent,
               onPressed: ()
-              {},
+              {
+                _isvalid = EmailValidator.validate(emailcontroller.text);
+                print(_isvalid);
+              if (_isvalid)
+              {
+                if (passwordcontroller.text.length > 0 && fnamecontroller.text.length > 0 && lnamecontroller.text.length > 0 && zipController.text.length > 0 &&
+                raceController.text.length > 0 && _genders.length>0 &&_firstvoters.length>0 && _degrees.length>0 )
+                {
+                  print('right login');
+                  getItemAndNavigate(context);
+                }
+                else
+                {
+                  Fluttertoast.showToast(
+                      msg: 'Enter all fields value',
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 2,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.transparent,
+                      textColor: Colors.blue
+                  );
+                }
+              }
+              else
+                {
+                  Fluttertoast.showToast(
+                      msg: 'Enter valid email',
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 2,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.transparent,
+                      textColor: Colors.blue
+                  );
+                }
+              },
               child: Text(
                 "Create Account",
                 style: TextStyle(fontSize: 20.0),
               ),
             ),
           ],
-
         ),
       ),
     );
   }
-
+  getItemAndNavigate(BuildContext context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Homedash(
+              firstname : fnamecontroller.text,
+              lastname : lnamecontroller.text,
+              email : emailcontroller.text,
+              password : passwordcontroller.text,
+              zipcode: zipController.text,
+              gender: _selectedItem.gender,
+              firstvoter:'yes',
+              partyname: _selectedname.name,
+              race: raceController.text,
+              degree : _selectedDegree.name,
+            ))
+    );
+  }
  // void showModelBottomSheet({BuildContext context, Container Function(BuildContext context) builder}) {}
 }
