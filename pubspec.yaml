@@ -34,7 +34,7 @@ dependencies:
   fluttertoast: ^7.1.1
   geolocator: ^5.1.5
   permission_handler: ^5.0.1+1
-  google_api_availability: ^2.0.4
+  geocoder: ^0.2.1
 
 
 dev_dependencies:

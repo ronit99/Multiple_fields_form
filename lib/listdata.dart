@@ -5,8 +5,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'register.dart';
 import 'constants.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_api_availability/google_api_availability.dart';
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoder/geocoder.dart';
 
 void main() => runApp(MaterialApp(
   home: Homedash(),
@@ -36,20 +38,20 @@ class Homedash extends StatefulWidget {
 
 class _HomedashState extends State<Homedash> {
   String _locationMessage ="";
-  void _getCurrentLocation() async {
 
-    final position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(position);
-
-    setState(() {
-      _locationMessage = "${position.latitude}, ${position.longitude}";
-    });
-
+  _getLocation() async
+  {
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    debugPrint('location: ${position.latitude}');
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    print("${first.featureName} : ${first.addressLine}");
   }
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
+    _getLocation();
 
   }
 
