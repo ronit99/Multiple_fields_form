@@ -244,7 +244,7 @@ class _RegisterState extends State<Register> {
               children: [
                 Expanded(
                   child: new TextField(
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     keyboardType: TextInputType.text,
                     controller: fnamecontroller,
                     decoration: InputDecoration(
@@ -265,7 +265,7 @@ class _RegisterState extends State<Register> {
                 SizedBox(width: 20),
                 Expanded(
                   child: new TextField(
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     controller: lnamecontroller,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
@@ -598,12 +598,12 @@ class _RegisterState extends State<Register> {
               else
                 {
                   Fluttertoast.showToast(
-                      msg: 'Enter valid email',
+                      msg: 'Enter all fields',
                       toastLength: Toast.LENGTH_SHORT,
                       timeInSecForIosWeb: 2,
                       gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.transparent,
-                      textColor: Colors.blue
+                      backgroundColor: Colors.grey,
+                      textColor: Colors.white
                   );
                 }
               },
@@ -632,6 +632,7 @@ class _RegisterState extends State<Register> {
               partyname: _selectedname.name,
               race: raceController.text,
               degree : _selectedDegree.name,
+              birthdate: birthController.text,
             ))
     );
   }
