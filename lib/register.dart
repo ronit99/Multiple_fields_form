@@ -553,10 +553,10 @@ class _RegisterState extends State<Register> {
                   onTap: () => _setAgreedToTOS(!_agreedToTOS),
                   child: const Text('I agree to the'),
                 ),
-                Text('Terms of Service and Disclousures',style: TextStyle(decoration: TextDecoration.underline,),)
+                Text('Terms of Service and',style: TextStyle(decoration: TextDecoration.underline,),)
               ],
             ),
-            // Text('Disclousures',style: TextStyle(decoration: TextDecoration.underline,),),
+            Text('Disclousures',style: TextStyle(decoration: TextDecoration.underline,),),
 
             // TextFormField(
             //   style: CustomTextStyle.display5(context),
